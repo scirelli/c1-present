@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Slider Form</title>
+    <style>
+      fieldset {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Slider and Checkbox Form</h1>
+    <form id="myForm">
+      <fieldset class="ir-group">
+        <label><input type="checkbox" id="sync1" checked>Linked</label><br>
+        <label for="slider1">Slider 1:</label>
+        <input type="range" id="slider1" name="slider1" min="0" max="4096" value="0"><span id="slider1Value">0</span><br><br>
+        <label for="slider2">Slider 2:</label>
+        <input type="range" id="slider2" name="slider2" min="0" max="4096" value="0"><span id="slider2Value">0</span><br><br>
+      </fieldset>
+
+      <fieldset>
+        <label><input type="checkbox" id="sync3" checked>Linked</label><br>
+        <label for="slider3">Slider 3:</label>
+        <input type="range" id="slider3" name="slider3" min="0" max="4096" value="0"><span id="slider3Value">0</span><br><br>
+        <label for="slider4">Slider 4:</label>
+        <input type="range" id="slider4" name="slider4" min="0" max="4096" value="0"><span id="slider4Value">0</span><br><br>
+      </fieldset>
+
+      <fieldset>
+        <label><input type="checkbox" id="sync5" checked>Linked</label><br>
+        <label for="slider5">Slider 5:</label>
+        <input type="range" id="slider5" name="slider5" min="0" max="4096" value="0"><span id="slider5Value">0</span><br><br>
+        <label for="slider6">Slider 6:</label>
+        <input type="range" id="slider6" name="slider6" min="0" max="4096" value="0"><span id="slider6Value">0</span><br><br>
+      </fieldset>
+
+      <label><input type="checkbox" name="motorOvercurrent" value="true"> Motor Overcurrent</label><br>
+      <label><input type="checkbox" name="doorSwitch" value="true"> Door Switch</label><br>
+      <label><input type="checkbox" name="limitSwitch1" value="true"> Limit Switch 1</label><br>
+      <label><input type="checkbox" name="limitSwitch2" value="true"> Limit Switch 2</label><br><br>
+
+      <label><input type="checkbox" id="sendToServer" checked> Send to Server</label>
+    </form>
+
+    <script src="index.js"></script>
+  </body>
+</html>
