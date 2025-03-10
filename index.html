@@ -8,13 +8,13 @@
         padding: 10px;
         margin-bottom: 10px;
       }
-      fieldset label {
+      fieldset .slider-pair {
         display:block;
       }
-      fieldset > label:first-of-type {
+      fieldset > div.slider-pair:first-of-type {
           margin-bottom: 20px;
       }
-      fieldset > label > input + span {
+      fieldset > .slider-pair > label > input + span {
           margin-left: 10px;
       }
     </style>
@@ -62,19 +62,17 @@
      -->
     </form>
 
-    <template id="slider-pair">
-      <fieldset class="ir-group">
+    <template id="slider-template">
+      <div class="slider">
+        <label for="">Slider {{index}}:</label>
+        <input type="range" name="" min="0" max="4096" value="0"/>
+        <span class="display-range-value">0</span>
+      </div>
+    </template>
+
+    <template id="slider-pair-template">
+      <fieldset class="slider-pair">
         <legend><input type="checkbox" checked/>Linked</legend>
-
-        <label for="">Slider 1:
-          <input type="range" name="slider1" min="0" max="4096" value="0"/>
-          <span>0</span>
-        </label>
-
-        <label for="">Slider 2:
-          <input type="range" name="slider2" min="0" max="4096" value="0"/>
-          <span>0</span>
-        </label>
       </fieldset>
     </template>
 

@@ -1,96 +1,66 @@
 const ws = new WebSocket('ws://localhost:3000');
 
-function createSliderGroup(id) {
-	let fsElm = document.createElement('fieldset'),
-		legendElm = document.createElement('legend'),
-		
-		syncCheckbox	 	 = document.createElement('input'),
-
-		slider1LabelElm  = document.createElement('label'),
-		slider1Elm		 	 = document.createElement('input'),
-		slider1ValueElm  = document.createElement('span'),
-
-		slider2LabelElm  = document.createElement('label'),
-		slider2Elm       = document.createElement('input'),
-		slider2ValueElm  = document.createElement('span');
-
-		syncCheckbox.type = 'checkbox';
-		syncCheckbox.checked = true;
-		legendElm.appendChild(syncCheckbox);
-		legendElm.append(document.createTextNode('Linked'));
-
-	  fsElm.classList.add('ir-group');
-		fsElm.appendChild(legendElm);
-
-		fsElm.appendChild(slider1LabelElm);
-		slider1LabelElm.textContent = 'Slider 1:'
-		slider1Elm.type = 'range';
-		slider1Elm.id = `slider_${id}_1`;
-		slider1Elm.setAttribute('name', slider1Elm.id);
-		slider1Elm.setAttribute('min', 0);
-		slider1Elm.setAttribute('max', 4096);
-		slider1Elm.value = 0;
-		slider1LabelElm.appendChild(slider1Elm);
-		slider1LabelElm.appendChild(slider1ValueElm);
-	  slider1ValueElm.id = `value_${id}_1`;
-		slider1ValueElm.textContent = 0;
-		slider1LabelElm.setAttribute('for', slider1Elm.id);
-		slider1Elm.addEventListener('input', (e) => {
-			slider1ValueElm.textContent = slider1Elm.value;
-		});
-
-		fsElm.appendChild(slider2LabelElm);
-		slider2Elm.type = 'range';
-		slider2Elm.id = `slider_${id}_2`;
-		slider2Elm.setAttribute('name', slider2Elm.id);
-		slider2Elm.setAttribute('min', 0);
-		slider2Elm.setAttribute('max', 4096);
-		slider2Elm.value = 0;
-		slider2LabelElm.textContent = 'Slider 2:';
-		slider2LabelElm.appendChild(slider2Elm);
-		slider2LabelElm.appendChild(slider2ValueElm);
-	  slider2ValueElm.id = `value_${id}_2`;
-		slider2ValueElm.textContent = '0';
-		slider2LabelElm.setAttribute('for', slider2Elm.id);
-		slider2Elm.addEventListener('input', (e) => {
-			slider2ValueElm.textContent = slider2Elm.value;
-		});
-	
-		return fsElm;
+if(!String.prototype.mustache) {
+  String.prototype.mustache = function(o) {
+    return this.replace(/{{([^{}]*)}}/g, function(a, b) {
+      var r = o[b];
+      return typeof r === 'string' || typeof r === 'number' ? r:a;
+    });
+  };
 }
 
-function createSliderGroup2(id) {
-  const clone = document.body.querySelector('#slider-pair').content.cloneNode(true);
-	let legendElm = clone.querySelector('fieldset > legend > input[type=checkbox]'),
-		labelElms = clone.querySelectorAll('fieldset > label'),
-		slider1Elm = labelElms[0].querySelector('input'),
-		slider1ValueElm = labelElms[0].querySelector('span'),
-		slider2Elm = labelElms[1].querySelector('input'),
-		slider2ValueElm = labelElms[1].querySelector('span');
+function createSlider(index) {
+  const clone = document.body.querySelector('#slider-template').content.cloneNode(true);
+	let sliderElm    = clone.querySelector('.slider'),
+		sliderLabelElm = sliderElm.querySelector('label'),
+		sliderInputElm = sliderElm.querySelector('input'),
+		sliderSpanElm  = sliderElm.querySelector('.display-range-value');
 
-	slider1Elm.id = `slider_${id}_1`;
-	labelElms[0].setAttribute('for', slider1Elm.id);
-	slider1Elm.setAttribute('name', slider1Elm.id);
-	slider1ValueElm.id = `value_${id}_1`;
-	slider1Elm.addEventListener('input', (e) => {
-		slider1ValueElm.textContent = slider1Elm.value;
+	sliderInputElm.id = `slider_${index}`;
+	sliderLabelElm.setAttribute('for', sliderInputElm.id);
+	sliderLabelElm.textContent = sliderLabelElm.textContent.mustache({index});
+	sliderInputElm.setAttribute('name', sliderInputElm.id);
+	sliderSpanElm.id = `value_${index}`;
+	sliderInputElm.addEventListener('input', () => {
+		sliderSpanElm.textContent = sliderInputElm.value;
+		//sendData();
 	});
 
-	slider2Elm.id = `slider_${id}_2`;
-	labelElms[1].setAttribute('for', slider2Elm.id);
-	slider2Elm.setAttribute('name', slider2Elm.id);
-	slider2ValueElm.id = `value_${id}_2`;
-	slider2Elm.addEventListener('input', (e) => {
-		slider2ValueElm.textContent = slider2Elm.value;
+	return clone;
+}
+
+function createSliderGroup(index) {
+  const clone = document.body.querySelector('#slider-pair-template').content.cloneNode(true);
+	let checkboxElm = clone.querySelector('fieldset > legend > input[type=checkbox]'),
+		slider1TmplElm = createSlider(index++),
+		slider1Elm = slider1TmplElm.querySelector('.slider'),
+		slider1InputElm = slider1Elm.querySelector('input'),
+		slider2TmplElm = createSlider(index),
+		slider2Elm = slider2TmplElm.querySelector('.slider'),
+		slider2InputElm = slider2Elm.querySelector('input');
+
+	clone.querySelector('fieldset').appendChild(slider1TmplElm);
+	clone.querySelector('fieldset').appendChild(slider2TmplElm);
+
+	checkboxElm.addEventListener('change', () => {
+		if(!checkboxElm.checked) return;
+		slider2InputElm.value = slider1InputElm.value;
+		slider2Elm.querySelector('.display-range-value').textContent = slider1InputElm.value;
 	});
+
+	slider1InputElm.addEventListener('input', (e) => {
+		if(!checkboxElm.checked) return;
+		slider2InputElm.value = slider1InputElm.value;
+		slider2Elm.querySelector('.display-range-value').textContent = slider1InputElm.value;
+	});
+
+	slider2InputElm.addEventListener('input', (e) => {
+		if(!checkboxElm.checked) return;
+		slider1InputElm.value = slider2InputElm.value;
+		slider1Elm.querySelector('.display-range-value').textContent = slider2InputElm.value;
+	});
+
   return clone;
-}
-
-function updateSliderValue(sliderId, valueId) {
-	const slider = document.getElementById(sliderId);
-	const valueSpan = document.getElementById(valueId);
-	valueSpan.textContent = slider.value;
-	sendData();
 }
 
 function syncSliders(slider1Id, slider2Id, checkboxId) {
@@ -129,7 +99,7 @@ function sendData() {
 	}
 }
 
-document.body.querySelector('form#myForm').appendChild(createSliderGroup2('g1'));
+document.body.querySelector('form#myForm').appendChild(createSliderGroup(1));
 
 // document.getElementById('sync1').addEventListener('change', () => syncSliders('slider1', 'slider2', 'sync1'));
 // document.getElementById('sync3').addEventListener('change', () => syncSliders('slider3', 'slider4', 'sync3'));
