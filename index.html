@@ -8,17 +8,33 @@
         padding: 10px;
         margin-bottom: 10px;
       }
+      fieldset label {
+        display:block;
+      }
+      fieldset > label:first-of-type {
+          margin-bottom: 20px;
+      }
+      fieldset > label > input + span {
+          margin-left: 10px;
+      }
     </style>
   </head>
   <body>
     <h1>Slider and Checkbox Form</h1>
     <form id="myForm">
+     <!--
       <fieldset class="ir-group">
-        <label><input type="checkbox" id="sync1" checked>Linked</label><br>
-        <label for="slider1">Slider 1:</label>
-        <input type="range" id="slider1" name="slider1" min="0" max="4096" value="0"><span id="slider1Value">0</span><br><br>
-        <label for="slider2">Slider 2:</label>
-        <input type="range" id="slider2" name="slider2" min="0" max="4096" value="0"><span id="slider2Value">0</span><br><br>
+        <legend><input type="checkbox" id="sync1" checked/>Linked</legend>
+
+        <label for="slider1">Slider 1:
+          <input type="range" id="slider1" name="slider1" min="0" max="4096" value="0"/>
+          <span id="slider1Value">0</span>
+        </label>
+
+        <label for="slider2">Slider 2:
+          <input type="range" id="slider2" name="slider2" min="0" max="4096" value="0"/>
+          <span id="slider2Value">0</span>
+        </label>
       </fieldset>
 
       <fieldset>
@@ -43,8 +59,25 @@
       <label><input type="checkbox" name="limitSwitch2" value="true"> Limit Switch 2</label><br><br>
 
       <label><input type="checkbox" id="sendToServer" checked> Send to Server</label>
+     -->
     </form>
 
-    <script src="index.js"></script>
+    <template id="slider-pair">
+      <fieldset class="ir-group">
+        <legend><input type="checkbox" checked/>Linked</legend>
+
+        <label for="">Slider 1:
+          <input type="range" name="slider1" min="0" max="4096" value="0"/>
+          <span>0</span>
+        </label>
+
+        <label for="">Slider 2:
+          <input type="range" name="slider2" min="0" max="4096" value="0"/>
+          <span>0</span>
+        </label>
+      </fieldset>
+    </template>
+
+    <script src="/index.js"></script>
   </body>
 </html>
