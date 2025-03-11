@@ -4,6 +4,40 @@
     <title>Slider Form</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <style>
+      body, html {
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* Prevent scrollbars */
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .row {
+        display: flex;
+        flex: 1; /* Distribute vertical space evenly */
+      }
+
+      .quadrant {
+        flex: 1; /* Distribute horizontal space evenly */
+        /* border: 1px solid #ccc; Add borders for visual separation */
+        display: flex; /* make quadrant a flexbox so that we can center content*/
+        justify-content: center; /* center content horizontally*/
+        align-items: center; /* center content vertically*/
+      }
+
+      .quadrant:nth-child(1) {  }
+      .quadrant:nth-child(2) {  }
+      .quadrant:nth-child(3) {  }
+      .quadrant:nth-child(4) {  }
+
+      .quadrant:nth-child(1) section {
+        width: 50%;
+      }
+
       fieldset {
         border: 1px solid #ccc;
         padding: 10px;
@@ -73,40 +107,52 @@
     </style>
   </head>
   <body>
-    <h1>Kiosk Sim</h1>
-    <form id="myForm">
-      <label><input type="checkbox" id="sendToServer" checked>Send to Server</label>
+    <div class="container">
+      <div class="row">
+        <div class="quadrant">
+          <section>
+            <form id="myForm">
+              <label><input type="checkbox" id="sendToServer" checked>Send to Server</label>
 
-      <fieldset class="momentary">
-        <div class="row">
-          <button type="button" class="momentary-button" id="overcurrentButton" name="overcurrent"></button>
-          <label for="overcurrentCheckbox">
-            <input type="checkbox" id="overcurrentCheckbox" name="overcurrent" value="1" />Motor Overcurrent
-          </label>
-        </div>
+              <fieldset class="momentary">
+                <div class="row">
+                  <button type="button" class="momentary-button" id="overcurrentButton" name="overcurrent"></button>
+                  <label for="overcurrentCheckbox">
+                    <input type="checkbox" id="overcurrentCheckbox" name="overcurrent" value="1" />Motor Overcurrent
+                  </label>
+                </div>
 
-        <div class="row">
-          <button type="button" class="momentary-button" id="doorButton" name="doorSwitch"></button>
-          <label for="doorCheckbox">
-            <input type="checkbox" id="doorCheckbox" name="doorSwitch" value="1" />Door
-          </label>
-        </div>
+                <div class="row">
+                  <button type="button" class="momentary-button" id="doorButton" name="doorSwitch"></button>
+                  <label for="doorCheckbox">
+                    <input type="checkbox" id="doorCheckbox" name="doorSwitch" value="1" />Door
+                  </label>
+                </div>
 
-        <div class="row">
-          <button type="button" class="momentary-button" id="limit1Button" name="limitSwitch1"></button>
-          <label for="limit1Checkbox">
-            <input type="checkbox" id="limit1Checkbox" name="limitSwitch1" value="1" />Limit 1
-          </label>
-        </div>
+                <div class="row">
+                  <button type="button" class="momentary-button" id="limit1Button" name="limitSwitch1"></button>
+                  <label for="limit1Checkbox">
+                    <input type="checkbox" id="limit1Checkbox" name="limitSwitch1" value="1" />Limit 1
+                  </label>
+                </div>
 
-        <div class="row">
-          <button type="button" class="momentary-button" id="limit2Button" name="limitSwitch2"></button>
-          <label for="limit2Checkbox">
-            <input type="checkbox" id="limit2Checkbox" name="limitSwitch2" value="1" />Limit 2
-          </label>
+                <div class="row">
+                  <button type="button" class="momentary-button" id="limit2Button" name="limitSwitch2"></button>
+                  <label for="limit2Checkbox">
+                    <input type="checkbox" id="limit2Checkbox" name="limitSwitch2" value="1" />Limit 2
+                  </label>
+                </div>
+              </fieldset>
+            </form>
+          </section>
         </div>
-      </fieldset>
-    </form>
+        <div class="quadrant">&nbsp;</div>
+      </div>
+      <div class="row">
+        <div class="quadrant">&nbsp;</div>
+        <div class="quadrant">&nbsp;</div>
+      </div>
+    </div>
 
     <template id="slider-template">
       <div class="slider">
