@@ -69,7 +69,7 @@ function sendData() {
 		const formData = new FormData(form);
 		const data = {};
 		formData.forEach((value, key) => {
-			if (key !== "sendToServer"){
+			if (key !== 'sendToServer'){
 				data[key] = value;
 			}
 		});
@@ -81,8 +81,26 @@ document.body.querySelector('form#myForm').appendChild(createSliderGroup(1));
 document.body.querySelector('form#myForm').appendChild(createSliderGroup(3));
 document.body.querySelector('form#myForm').appendChild(createSliderGroup(5));
 
-["motorOvercurrent", "doorSwitch", "limitSwitch1", "limitSwitch2"].forEach(n => {
+['overcurrent', 'doorSwitch', 'limitSwitch1', 'limitSwitch2'].forEach(n => {
 	document.body.querySelector(`input[name="${n}"]`).addEventListener('change', sendData);
+	document.body.querySelector(`button[name="${n}"]`).addEventListener('mousedown', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		setTimeout(()=>{
+			const checkbox = document.body.querySelector(`input[name="${n}"]`);
+			if(checkbox.checked) checkbox.checked = false;
+			document.body.querySelector(`input[name="${n}"]`).click();
+		}, 0);
+	});
+	document.body.querySelector(`button[name="${n}"]`).addEventListener('mouseup', e => {
+		e.preventDefault();
+		e.stopPropagation();
+		setTimeout(()=>{
+			const checkbox = document.body.querySelector(`input[name="${n}"]`);
+			if(!checkbox.checked) checkbox.checked = true;
+			document.body.querySelector(`input[name="${n}"]`).click();
+		}, 0);
+	});
 });
 Array.prototype.forEach.call(document.body.querySelectorAll('.slider input[type="range"]'), e => {
 	e.addEventListener('input', sendData);
