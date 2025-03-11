@@ -23,7 +23,6 @@ function createSlider(index) {
 	sliderSpanElm.id = `value_${index}`;
 	sliderInputElm.addEventListener('input', () => {
 		sliderSpanElm.textContent = sliderInputElm.value;
-		//sendData();
 	});
 
 	return clone;
@@ -63,27 +62,6 @@ function createSliderGroup(index) {
   return clone;
 }
 
-function syncSliders(slider1Id, slider2Id, checkboxId) {
-	const slider1 = document.getElementById(slider1Id);
-	const slider2 = document.getElementById(slider2Id);
-	const checkbox = document.getElementById(checkboxId);
-
-	function updateSyncedSlider(event) {
-		if (checkbox.checked) {
-			if (event.target.id === slider1Id) {
-				slider2.value = slider1.value;
-				updateSliderValue(slider2Id, slider2Id + 'Value');
-			} else {
-				slider1.value = slider2.value;
-				updateSliderValue(slider1Id, slider1Id + 'Value');
-			}
-		}
-	}
-
-	slider1.addEventListener('input', updateSyncedSlider);
-	slider2.addEventListener('input', updateSyncedSlider);
-}
-
 function sendData() {
 	const sendCheckbox = document.getElementById('sendToServer');
 	if (sendCheckbox.checked) {
@@ -100,16 +78,12 @@ function sendData() {
 }
 
 document.body.querySelector('form#myForm').appendChild(createSliderGroup(1));
+document.body.querySelector('form#myForm').appendChild(createSliderGroup(3));
+document.body.querySelector('form#myForm').appendChild(createSliderGroup(5));
 
-// document.getElementById('sync1').addEventListener('change', () => syncSliders('slider1', 'slider2', 'sync1'));
-// document.getElementById('sync3').addEventListener('change', () => syncSliders('slider3', 'slider4', 'sync3'));
-// document.getElementById('sync5').addEventListener('change', () => syncSliders('slider5', 'slider6', 'sync5'));
-
-// document.getElementById('slider1').addEventListener('input', () => updateSliderValue('slider1', 'slider1Value'));
-// document.getElementById('slider2').addEventListener('input', () => updateSliderValue('slider2', 'slider2Value'));
-// document.getElementById('slider3').addEventListener('input', () => updateSliderValue('slider3', 'slider3Value'));
-// document.getElementById('slider4').addEventListener('input', () => updateSliderValue('slider4', 'slider4Value'));
-// document.getElementById('slider5').addEventListener('input', () => updateSliderValue('slider5', 'slider5Value'));
-// document.getElementById('slider6').addEventListener('input', () => updateSliderValue('slider6', 'slider6Value'));
-
-// document.getElementById('sendToServer').addEventListener('change', sendData);
+["motorOvercurrent", "doorSwitch", "limitSwitch1", "limitSwitch2"].forEach(n => {
+	document.body.querySelector(`input[name="${n}"]`).addEventListener('change', sendData);
+});
+Array.prototype.forEach.call(document.body.querySelectorAll('.slider input[type="range"]'), e => {
+	e.addEventListener('input', sendData);
+});
