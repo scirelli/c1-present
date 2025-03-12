@@ -27,6 +27,7 @@
         display: flex; /* make quadrant a flexbox so that we can center content*/
         justify-content: center; /* center content horizontally*/
         align-items: center; /* center content vertically*/
+        padding: 4px;
       }
 
       .quadrant:nth-child(1) {  }
@@ -150,6 +151,47 @@
           border: 1px solid #ccc;
           resize: vertical;
         }
+
+        .plywood-border {
+            width: calc(50vw - 8px - 2px);
+            height: calc(50vh - 8px - 2px);
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            --layer-border-size: 2px;
+            --layer-border-sz-A: calc(0px + var(--layer-border-size));
+            --layer-border-sz-B: calc(1px + var(--layer-border-size));
+        }
+
+        .plywood-border div.plywood-layer, .plywood-border .content {
+            border-radius: 62px;
+        }
+
+        .plywood-border > div {
+            border: var(--layer-border-sz-A) solid #654321;
+            width: 100%;
+            height: 100%;
+            background-color: #654321;
+        }
+        .plywood-border > div > div { border: var(--layer-border-sz-B) solid #8B4513; width: calc(100% - 4px); height: calc(100% - 4px);}
+        .plywood-border > div > div > div { border: var(--layer-border-sz-A) solid #654321; width: calc(100% - 6px); height: calc(100% - 6px);}
+        .plywood-border > div > div > div > div { border: var(--layer-border-sz-B) solid #8B4513; width: calc(100% - 4px); height: calc(100% - 4px);}
+        .plywood-border > div > div > div > div > div { border: var(--layer-border-sz-A) solid #654321; width: calc(100% - 6px); height: calc(100% - 6px);}
+        .plywood-border > div > div > div > div > div > div { border: var(--layer-border-sz-B) solid #8B4513; width: calc(100% - 4px); height: calc(100% - 4px);}
+        .plywood-border > div > div > div > div > div > div > div { border: var(--layer-border-sz-A) solid #654321; width: calc(100% - 6px); height: calc(100% - 6px);}
+        .plywood-border > div > div > div > div > div > div > div > div { border: var(--layer-border-sz-B) solid #8B4513; width: calc(100% - 4px); height: calc(100% - 4px);}
+        .plywood-border > div > div > div > div > div > div > div > div > div { border: var(--layer-border-sz-A) solid #654321; width: calc(100% - 6px); height: calc(100% - 6px);}
+        .plywood-border .content {
+            background-color: #f5f5f5; /* Vanilla white */
+            padding: 4px;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
   </head>
   <body>
@@ -192,7 +234,31 @@
             </form>
           </section>
         </div>
-        <div class="quadrant">&nbsp;</div>
+        <div class="quadrant">
+          <div class="plywood-border">
+            <div class="plywood-layer">
+                <div class="plywood-layer">
+                    <div class="plywood-layer">
+                        <div class="plywood-layer">
+                            <div class="plywood-layer">
+                                <div class="plywood-layer">
+                                    <div class="plywood-layer">
+                                        <div class="plywood-layer">
+                                            <div class="plywood-layer">
+                                                <div class="content">
+                                                    CC Kiosk
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div class="quadrant">
@@ -204,10 +270,10 @@
               <span>Upload</span>
             </div>
 
-            <textarea id="text-area"></textarea>
+            <textarea id="text-area" placeholder="Binary or JSON representation of messages being sent from the hardware."></textarea>
           </div>
         </div>
-        <div class="quadrant">&nbsp;</div>
+        <div class="quadrant">Middleware</div>
       </div>
     </div>
 
