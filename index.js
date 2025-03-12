@@ -105,3 +105,53 @@ document.body.querySelector('form#myForm').appendChild(createSliderGroup(5));
 Array.prototype.forEach.call(document.body.querySelectorAll('.slider input[type="range"]'), e => {
 	e.addEventListener('input', sendData);
 });
+
+const dropArea = document.getElementById('drop-area');
+const textArea = document.getElementById('text-area');
+
+dropArea.addEventListener('dragstart', (event) => {
+	event.preventDefault();
+	event.dataTransfer.dropEffect = "copy";	
+});
+
+dropArea.addEventListener('dragover', (event) => {
+	event.preventDefault();
+	dropArea.classList.add('drag-over');
+});
+
+dropArea.addEventListener('dragleave', () => {
+	dropArea.classList.remove('drag-over');
+});
+
+dropArea.addEventListener('drop', (event) => {
+	event.preventDefault();
+	dropArea.classList.remove('drag-over');
+
+	const file = event.dataTransfer.files[0];
+
+	if (file) {
+		const fileName = file.name.toLowerCase();
+		if (fileName.endsWith('.bin')) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				const arrayBuffer = e.target.result;
+				const uint8Array = new Uint8Array(arrayBuffer);
+				textArea.value = uint8Array;
+			};
+			reader.readAsArrayBuffer(file);
+		} else if (fileName.endsWith('.json')) {
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				try {
+					const jsonObject = JSON.parse(e.target.result);
+					textArea.value = JSON.stringify(jsonObject, null, 2);
+				} catch (error) {
+					textArea.value = "Error parsing JSON file.";
+				}
+			};
+			reader.readAsText(file);
+		} else {
+			textArea.value = "Invalid file type. Only .bin and .json files are allowed.";
+		}
+	}
+});

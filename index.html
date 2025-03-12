@@ -104,6 +104,48 @@
       .momentary-button:active::before {
         transform: translateY(-50%) rotate(90deg);
       }
+
+      .upload-area {
+        width: 100%;
+        margin: 0;
+        padding: 4px;
+        overflow: hidden;
+        display: flex; /* Use flexbox for layout */
+        flex-direction: column; /* Arrange items in a column */
+      }
+
+      #drop-area {
+        border: 2px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(184, 238, 184, 0.1);
+        transition: background-color 0.3s ease;
+        padding: 2px;
+      }
+
+      #drop-area:hover {
+        border: 2px dashed green;
+        background-color: rgba(144, 238, 144, 0.5); /* Darker green tint */
+      }
+
+      #drop-area svg {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 10px;
+        transform: rotate(180deg);
+      }
+
+       #text-area {
+          width: 100%;
+          height: 400px;
+          box-sizing: border-box;
+          padding: 5px;
+          margin: 10px 0px 10px 0px;
+          border: 1px solid #ccc;
+          resize: vertical;
+        }
     </style>
   </head>
   <body>
@@ -149,7 +191,18 @@
         <div class="quadrant">&nbsp;</div>
       </div>
       <div class="row">
-        <div class="quadrant">&nbsp;</div>
+        <div class="quadrant">
+          <div class="upload-area">
+            <div id="drop-area" draggable="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+              </svg>
+              <span>Upload</span>
+            </div>
+
+            <textarea id="text-area"></textarea>
+          </div>
+        </div>
         <div class="quadrant">&nbsp;</div>
       </div>
     </div>
